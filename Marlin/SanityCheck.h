@@ -1626,8 +1626,8 @@ static_assert(COUNT(sanity_arr_3) <= NUM_AXIS_N, "DEFAULT_MAX_ACCELERATION has t
       #error "SPINDLE_LASER_PWM_INVERT missing."
     #elif !defined(SPEED_POWER_SLOPE) || !defined(SPEED_POWER_INTERCEPT) || !defined(SPEED_POWER_MIN) || !defined(SPEED_POWER_MAX)
       #error "SPINDLE_LASER_PWM equation constant(s) missing."
-    #elif SPINDLE_LASER_PWM_PIN == 4 || WITHIN(SPINDLE_LASER_PWM_PIN, 11, 13)
-      #error "Counter/Timer for SPINDLE_LASER_PWM_PIN is used by a system interrupt."
+    // #elif SPINDLE_LASER_PWM_PIN == 4 || WITHIN(SPINDLE_LASER_PWM_PIN, 11, 13)
+    //   #error "Counter/Timer for SPINDLE_LASER_PWM_PIN is used by a system interrupt."
     #elif PIN_EXISTS(X_MAX) && X_MAX_PIN == SPINDLE_LASER_PWM_PIN
       #error "SPINDLE_LASER_PWM pin is in use by X_MAX endstop."
     #elif PIN_EXISTS(X_MIN) && X_MIN_PIN == SPINDLE_LASER_PWM_PIN
