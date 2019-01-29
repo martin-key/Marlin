@@ -60,15 +60,15 @@ FORCE_INLINE void _draw_heater_status(const uint8_t x, const int8_t heater, cons
         thermalManager.is_heater_idle(heater)
       );
 
-      if (blink || !is_idle)
+      // if (blink || !is_idle)
     #endif
-        _draw_centered_temp(0.5f + (
-            #if HAS_HEATED_BED
-              isBed ? thermalManager.degTargetBed() :
-            #endif
-            thermalManager.degTargetHotend(heater)
-          ), x, 7
-        );
+        // _draw_centered_temp(0.5f + (
+        //     #if HAS_HEATED_BED
+        //       isBed ? thermalManager.degTargetBed() :
+        //     #endif
+        //     thermalManager.degTargetHotend(heater)
+        //   ), x, 7
+        // );
   }
 
   if (PAGE_CONTAINS(21, 28)) {
@@ -80,22 +80,22 @@ FORCE_INLINE void _draw_heater_status(const uint8_t x, const int8_t heater, cons
       ), x, 28
     );
 
-    if (PAGE_CONTAINS(17, 20)) {
-      const uint8_t h = isBed ? 7 : HEAT_INDICATOR_X,
-                    y = isBed ? 18 : 17;
-      if (
-        #if HAS_HEATED_BED
-          isBed ? thermalManager.isHeatingBed() :
-        #endif
-        thermalManager.isHeatingHotend(heater)
-      ) {
-        u8g.setColorIndex(0); // white on black
-        u8g.drawBox(x + h, y, 2, 2);
-        u8g.setColorIndex(1); // black on white
-      }
-      else
-        u8g.drawBox(x + h, y, 2, 2);
-    }
+    // if (PAGE_CONTAINS(17, 20)) {
+    //   const uint8_t h = isBed ? 7 : HEAT_INDICATOR_X,
+    //                 y = isBed ? 18 : 17;
+    //   if (
+    //     #if HAS_HEATED_BED
+    //       isBed ? thermalManager.isHeatingBed() :
+    //     #endif
+    //     thermalManager.isHeatingHotend(heater)
+    //   ) {
+    //     u8g.setColorIndex(0); // white on black
+    //     u8g.drawBox(x + h, y, 2, 2);
+    //     u8g.setColorIndex(1); // black on white
+    //   }
+    //   else
+    //     u8g.drawBox(x + h, y, 2, 2);
+    // }
   }
 }
 
@@ -257,22 +257,25 @@ static void lcd_implementation_status_screen() {
 
   if (PAGE_UNDER(28)) {
     // Extruders
-    HOTEND_LOOP() _draw_heater_status(STATUS_SCREEN_HOTEND_TEXT_X(e), e, blink);
+    // HOTEND_LOOP() _draw_heater_status(STATUS_SCREEN_HOTEND_TEXT_X(e), e, blink);
 
     // Heated bed
     #if HOTENDS < 4 && HAS_HEATED_BED
-      _draw_heater_status(STATUS_SCREEN_BED_TEXT_X, -1, blink);
+      // _draw_heater_status(STATUS_SCREEN_BED_TEXT_X, -1, blink);
     #endif
 
     #if HAS_FAN0
       if (PAGE_CONTAINS(STATUS_SCREEN_FAN_TEXT_Y - 7, STATUS_SCREEN_FAN_TEXT_Y)) {
         // Fan
-        const int16_t per = ((fanSpeeds[0] + 1) * 100) / 256;
-        if (per) {
-          u8g.setPrintPos(STATUS_SCREEN_FAN_TEXT_X, STATUS_SCREEN_FAN_TEXT_Y);
-          lcd_print(itostr3(per));
-          u8g.print('%');
+        // const int16_t per = ((fanSpeeds[0] + 1) * 100) / 256;
+        u8g.setPrintPos(STATUS_SCREEN_FAN_TEXT_X, STATUS_SCREEN_FAN_TEXT_Y);
+        if (fanSpeeds[0] > 0) {
+           
+          lcd_print(" ON");
+        } else {
+          lcd_print("OFF");
         }
+          // u8g.print('%');
       }
     #endif
   }
@@ -438,11 +441,13 @@ static void lcd_implementation_status_screen() {
   if (PAGE_CONTAINS(51 - INFO_FONT_HEIGHT, 49)) {
     lcd_setFont(FONT_MENU);
     u8g.setPrintPos(3, 50);
-    lcd_print(LCD_STR_FEEDRATE[0]);
+    lcd_print(LCD_STR_THERMOMETER[0]);
+
+const int16_t per = ((fanSpeeds[0] + 1) * 100) / 256;
 
     lcd_setFont(FONT_STATUSMENU);
     u8g.setPrintPos(12, 50);
-    lcd_print(itostr3(feedrate_percentage));
+    lcd_print(itostr3(per));
     u8g.print('%');
 
     //

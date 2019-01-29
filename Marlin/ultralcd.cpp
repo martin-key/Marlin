@@ -1111,7 +1111,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
 
     if (planner.movesplanned() || IS_SD_PRINTING)
       MENU_ITEM(submenu, MSG_TUNE, lcd_tune_menu);
-    else
+    // else
       MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
 
     MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
@@ -2657,6 +2657,13 @@ void lcd_quick_feedback(const bool clear_buttons) {
     //
     MENU_BACK(MSG_MAIN);
 
+    MENU_MULTIPLIER_ITEM_EDIT(int3, MSG_FAN_SPEED FAN_SPEED_1_SUFFIX, &fanSpeeds[0], 0, 255);
+
+    //
+    // Disable Steppers
+    //
+    MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
+
     //
     // Move Axis
     //
@@ -2722,11 +2729,6 @@ void lcd_quick_feedback(const bool clear_buttons) {
       //
       MENU_ITEM(function, MSG_SET_HOME_OFFSETS, lcd_set_home_offsets);
     #endif
-
-    //
-    // Disable Steppers
-    //
-    MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
 
     //
     // Change filament

@@ -132,7 +132,7 @@
 // Heaters / Fans
 //
 #define HEATER_0_PIN       13   // (extruder)
-#define HEATER_BED_PIN     12   // (bed)
+// #define HEATER_BED_PIN     12   // (bed)
 // #define SPINDLE_LASER_ENABLE_PIN 4
 // #define SPINDLE_LASER_PWM_PIN 13
 
